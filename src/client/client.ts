@@ -70,8 +70,8 @@ const UIController = {
         return;
       }
 
-      enderecos.forEach((net: { endereco: string; nome: string }) => {
-  const url = `http://${net.endereco}:${PORT}`;
+      enderecos.forEach(async (net: { endereco: string; nome: string }) => {
+        const url = `http://${net.endereco}:${PORT}`;
         const div = document.createElement('div');
         div.className = 'endereco-item';
 
@@ -79,13 +79,32 @@ const UIController = {
         info.className = 'endereco-info';
         info.innerHTML = `<strong>${net.nome}:</strong> <a href="${url}" target="_blank">${url}</a>`;
 
-        const qrImg = document.createElement('img');
-        qrImg.className = 'qr-code';
-        qrImg.width = 128;
-        qrImg.height = 128;
-        qrImg.src = `/api/qrcode?url=${encodeURIComponent(url)}`;
-
-        div.appendChild(qrImg);
+        try {
+          const response = await fetch(
+            `/api/qrcode?url=${encodeURIComponent(url)}`
+          );
+          if (response.ok) {
+            const qrImg = document.createElement('img');
+            qrImg.className = 'qr-code';
+            qrImg.width = 128;
+            qrImg.height = 128;
+            qrImg.src = `/api/qrcode?url=${encodeURIComponent(url)}`;
+            div.appendChild(qrImg);
+          } else {
+            console.error(
+              `Falha ao obter o QR Code para ${url}:`,
+              response.status
+            );
+            const span = document.createElement('span');
+            span.textContent = 'Falha ao carregar QR Code';
+            div.appendChild(span);
+          }
+        } catch (error) {
+          console.error('Erro de rede ao obter o QR Code:', error);
+          const span = document.createElement('span');
+          span.textContent = 'Erro de rede';
+          div.appendChild(span);
+        }
         div.appendChild(info);
         this.elements.enderecosLista.appendChild(div);
       });
@@ -301,15 +320,6 @@ const SocketService = {
       this.socket.emit(evento, ...dados);
     }
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on<T extends keyof ServerToClientEvents>(
-    evento: T,
-    callback: ServerToClientEvents[T]
-  ) {
-    if (this.socket) {
-      this.socket.on(evento, callback as any);
-    }
-  },
 };
 
 // --- Controlador da Aplicação ---
@@ -325,7 +335,7 @@ const AppController = {
   atualizarEstadoLocal(novasRespostas: string[], novoEstadoPronto: boolean) {
     state.minhasRespostas = novasRespostas;
     state.isReady = novoEstadoPronto;
-    UIController.setParticipantReadyState(state.isReady);
+    //UIController.setParticipantReadyState(state.isReady);
     UIController.renderizarMinhasRespostas(
       state.minhasRespostas,
       state.isReady,
@@ -380,26 +390,41 @@ const AppController = {
   },
 
   bindSocketEvents() {
-    SocketService.on(EVENTS.IS_HOST, () => {
+    if (!SocketService.socket) return;
+
+    SocketService.socket.on(EVENTS.IS_HOST, () => {
       UIController.mostrarVistaAnfitriao();
       UIController.setRevealClearButtons(false);
     });
 
-    SocketService.on(EVENTS.HOST_EXISTS, () => {
+    SocketService.socket.on(EVENTS.HOST_EXISTS, () => {
       document.body.innerHTML = '<h1>Já existe um anfitrião ativo.</h1>';
     });
 
-    SocketService.on(EVENTS.UPDATE_PARTICIPANT_STATE, (estado) => {
+    SocketService.socket.on(EVENTS.UPDATE_PARTICIPANT_STATE, (estado) => {
       UIController.atualizarEstadoParticipantes(estado);
     });
 
-    SocketService.on(EVENTS.UPDATE_COUNTER, (num) => {
+    SocketService.socket.on(EVENTS.UPDATE_COUNTER, (num) => {
       UIController.atualizarContador(num);
     });
 
-    SocketService.on(EVENTS.RESPONSES_REVEALED, (respostas) => {
+    SocketService.socket.on(EVENTS.RESPONSES_REVEALED, (respostas) => {
       UIController.mostrarRespostasReveladas(respostas);
       UIController.setRevealClearButtons(respostas.length > 0);
+      if (respostas.length === 0) {
+        AppController.atualizarEstadoLocal([], false);
+      }
+    });
+
+    SocketService.socket.on('connect', () => {
+      console.log('Conectado ao servidor.');
+    });
+    SocketService.socket.on('disconnect', (reason: string) => {
+      console.log(`Desconectado do servidor. Motivo: ${reason}`);
+    });
+    SocketService.socket.on('connect_error', (error: Error) => {
+      console.error('Erro de conexão:', error.message);
     });
   },
 

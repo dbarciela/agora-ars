@@ -81,8 +81,8 @@ const estadoAplicacao: EstadoAplicacao = {
 
   limparRespostas() {
     Object.values(this.participantes).forEach((p) => {
-      (p as Participante).respostas = [];
-      (p as Participante).pronto = false;
+      p.respostas = [];
+      p.pronto = false;
     });
     console.log('Anfitrião limpou as respostas.');
   },
@@ -191,30 +191,28 @@ io.on(
     emitirAtualizacaoEstado();
 
     socket.on(EVENTS.SUBMIT_RESPONSE, (resposta) => {
-      if (
-        typeof resposta !== 'string' ||
-        resposta.trim() === '' ||
-        resposta.length > 500
-      ) {
+      // 1. Validar e sanitizar a entrada de imediato
+      if (typeof resposta !== 'string' || resposta.trim() === '') {
+        return;
+      }
+      const respostaSanitizada = escapeHtml(resposta.trim());
+      if (respostaSanitizada.length > 500) {
         return;
       }
 
       const participante = estadoAplicacao.participantes[socket.id];
       if (participante && !participante.pronto) {
-        // MELHORIA DE ROBUSTEZ: Validar duplicados no servidor.
-        const respostaNormalizada = resposta.trim().toLowerCase();
+        // 2. Validar duplicados com base na versão sanitizada e normalizada
+        const respostaNormalizada = respostaSanitizada.toLowerCase();
         const respostasExistentes = new Set(
-          participante.respostas.map((r) => r.trim().toLowerCase())
+          participante.respostas.map((r) => r.toLowerCase())
         );
         if (respostasExistentes.has(respostaNormalizada)) {
-          // Opcional: notificar o cliente do erro.
           return;
         }
 
-        // MELHORIA DE SEGURANÇA: Sanitizar a resposta antes de a armazenar.
-        const respostaSanitizada = escapeHtml(resposta.trim());
+        // 3. Adicionar a resposta sanitizada
         participante.respostas.push(respostaSanitizada);
-
         console.log(
           `Nova resposta de [${socket.id}]: "${respostaSanitizada}".`
         );
