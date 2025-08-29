@@ -1,0 +1,359 @@
+/* Feedback visual para submissão */
+.feedback {
+    color: green;
+    margin-top: 10px;
+    height: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.feedback.success {
+    color: #28a745;
+}
+.feedback.error {
+    color: #dc3545;
+}
+
+#info-acesso-container {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+#enderecos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+.endereco-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+.endereco-info {
+    text-align: left;
+    font-size: 16px;
+}
+.endereco-info a {
+    font-weight: bold;
+    color: #007bff;
+}
+.qr-code { /* Estilo agora aplicado a <img> */
+    border: 1px solid #ccc;
+    min-width: 128px; /* Garante que há espaço para a imagem carregar */
+    min-height: 128px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+textarea {
+}
+
+/* Novo container para o input e a seta */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 45px 10px 10px; /* Espaço à direita para a seta */
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+input[type="text"]:disabled {
+    background-color: #e9ecef;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+    border: 1px solid #bbb;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Novo estilo para a seta de submissão */
+.submit-arrow {
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #007bff;
+    padding: 0 12px;
+    margin: 0; /* Reset da margem do botão base */
+    height: 90%;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.submit-arrow:hover {
+    color: #0056b3;
+    background-color: transparent;
+}
+
+.submit-arrow:disabled {
+    color: #ccc !important;
+    cursor: not-allowed;
+    background-color: transparent !important;
+}
+
+/* Novo estilo para o botão no estado de "Cancelar" */
+button.cancel-state {
+    background-color: #ffc107; /* Laranja/Amarelo */
+    color: #333;
+}
+
+button.cancel-state:hover {
+    background-color: #e0a800;
+}
+
+
+#reveal-btn {
+    background-color: #28a745;
+}
+#reveal-btn:hover {
+    background-color: #218838;
+}
+#respostas-container {
+    margin-top: 20px;
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    min-height: 50px;
+    border: 1px solid #eee;
+}
+.resposta-item {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resposta-grafico-item {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Coluna para a barra e para a contagem */
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.barra-container {
+    position: relative; /* Essencial para o posicionamento do texto */
+    height: 30px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Garante que tudo fica dentro das bordas arredondadas */
+}
+
+.barra-preenchimento {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+    overflow: hidden; /* Esconde o texto que sai fora da barra preenchida */
+}
+
+.resposta-texto {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap; /* Evita que o texto quebre em várias linhas */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
+    width: calc(100% - 20px); /* Garante que o texto não ultrapassa as margens */
+}
+
+/* Texto de fundo (visível na parte vazia da barra) */
+.resposta-texto-bg {
+    color: #333;
+}
+
+/* Texto de primeiro plano (visível na parte preenchida da barra) */
+.resposta-texto-fg {
+    color: white;
+}
+
+.resposta-contagem {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+/* Nova regra para o ícone de apagar */
+.delete-icon {
+    cursor: pointer; /* Muda o cursor para a mão */
+    margin-left: 12px;
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.delete-icon:hover {
+    color: #a71d2a; /* Escurece o ícone ao passar o rato */
+}
+
+.feedback {
+    color: green;
+    margin-top: 10px;
+    height: 20px;
+    /* MELHORIA: Transição suave para a opacidade */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.feedback.success {
+    color: #28a745;
+}
+
+.feedback.error {
+    color: #dc3545;
+}
+
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 2rem 0;
+}
+button:disabled {
+    background-color: #cccccc !important;
+    color: #888 !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+textarea:disabled {
+    background-color: #e9ecef;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+    border: 1px solid #bbb;
+}
+
+
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 28px;
+    line-height: 60px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+}
+
+.info-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    /* Escondido por defeito */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.info-panel.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#info-acesso-container {
+    position: relative;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #888;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #333;
+    background-color: transparent;
+}

@@ -1,0 +1,41 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron Forge output
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# VS Code
+.vscode/
+
+# Build
+/dist/
+
+# Squirrel installer
+*.nupkg
+RELEASES
+
+# Misc
+*.tgz
+
+# Coverage
+coverage/
+
+# Others
+*.swp
+*.swo
+
+# Ignore package-lock if desired
+# package-lock.json

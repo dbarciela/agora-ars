@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agora - Audience Response System</title>
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws://localhost:* ws://127.0.0.1:* ws://[::1]:*;">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Agora</h1>
+
+        <div id="participant-view">
+            <div class="input-container">
+                <input id="resposta-input" type="text" placeholder="Escreva aqui..." autocomplete="off" />
+                <button id="submit-btn" class="submit-arrow" title="Submeter resposta">📩</button>
+            </div>
+            <p id="feedback-message" class="feedback"></p>
+            <h3>As suas respostas</h3>
+            <div id="minhas-respostas-container">
+                <p>As suas respostas aparecerão aqui.</p>
+            </div>
+            <button id="pronto-btn">Pronto</button>
+        </div>
+
+        <div id="host-view" style="display: none;">
+            <button id="show-info-btn" class="floating-btn" title="Mostrar Informação de Acesso">🔗</button>
+
+            <div id="info-acesso-panel" class="info-panel">
+                <button id="close-info-btn" class="close-btn" title="Fechar">&times;</button>
+                <div id="info-acesso-container">
+                    <h3>Partilhe este endereço com a audiência:</h3>
+                    <div id="enderecos-lista">A carregar endereços de rede...</div>
+                </div>
+            </div>
+
+            <p>Você é o anfitrião. Aguarde as submissões e revele quando estiver pronto.</p>
+
+            <button id="reveal-btn">Revelar Respostas</button>
+            <button id="clear-btn">Limpar Respostas</button>
+
+            <hr>
+
+            <div id="estado-participantes">
+                <h2 id="contador-participantes">Participantes: 0</h2>
+                <div id="bar-chart"
+                    style="width:100%;height:32px;display:flex;border-radius:8px;overflow:hidden;border:1px solid #ccc;background:#eee;margin-bottom:8px">
+                    <div id="bar-prontos" style="height:100%;background:#28a745;width:0;"></div>
+                    <div id="bar-a-responder" style="height:100%;background:#ffc107;width:0;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:14px">
+                    <span id="prontos-indicador">Prontos: 0</span>
+                    <span id="a-responder-indicador">A responder: 0</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <h2 id="contador-respostas">Respostas Recebidas: 0</h2>
+        <div id="respostas-container">
+            <p>As respostas aparecerão aqui quando o anfitrião as revelar.</p>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="events.js"></script>
+    <script src="client.js"></script>
+</body>
+
+</html>
