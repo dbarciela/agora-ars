@@ -1,0 +1,868 @@
+/* ================= TYPOGRAPHY ================= */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+#main-title {
+  font-family: 'Noto Serif Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-transform: lowercase;
+}
+
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 2rem 0;
+}
+
+/* --- Estilos de Botões --- */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Novo estilo para o botão no estado de "Cancelar" */
+button.cancel-state {
+  background-color: #ffc107;
+  /* Laranja/Amarelo */
+  color: #333;
+}
+
+button.cancel-state:hover {
+  background-color: #e0a800;
+}
+
+/* --- Input e Seta de Submissão --- */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+input[type='text'] {
+  width: 100%;
+  padding: 10px 45px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+input[type='text']:disabled {
+  background-color: #e9ecef;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+  border: 1px solid #bbb;
+}
+
+.submit-arrow {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #007bff;
+  padding: 0 12px;
+  margin: 0;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.submit-arrow:hover {
+  color: #0056b3;
+  background-color: transparent;
+}
+
+.submit-arrow:disabled {
+  color: #cccccc !important;
+  cursor: not-allowed;
+  background-color: transparent !important;
+}
+
+/* --- Painel de Informação (Anfitrião) --- */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 60px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  height: 24px;
+  min-width: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+  /* Escondido por defeito */
+}
+
+.badge.visible {
+  display: block;
+}
+
+.info-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+
+.info-panel.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#info-acesso-container {
+  position: relative;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #333;
+  background-color: transparent;
+}
+
+.endereco-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.endereco-info {
+  text-align: left;
+  font-size: 16px;
+}
+
+.endereco-info a {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.qr-code {
+  border: 1px solid #ccc;
+  min-width: 128px;
+  min-height: 128px;
+}
+
+/* --- Contadores e Respostas --- */
+#respostas-container {
+  margin-top: 20px;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 50px;
+  border: 1px solid #eee;
+}
+
+.resposta-item {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resposta-grafico-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.barra-container {
+  position: relative;
+  height: 30px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.barra-preenchimento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.resposta-texto {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 20px);
+}
+
+.resposta-texto-bg {
+  color: #333;
+}
+
+
+.resposta-contagem {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+/* --- Ícones e Feedback --- */
+.delete-icon {
+  cursor: pointer;
+  margin-left: 12px;
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.delete-icon:hover {
+  color: #a71d2a;
+}
+
+.feedback {
+  color: green;
+  margin-top: 10px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.feedback.success {
+  color: #28a745;
+}
+
+.feedback.error {
+  color: #dc3545;
+}
+
+/* --- Botão Revelar Respostas (Anfitrião) --- */
+.reveal-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.host-btn {
+  position: relative;
+  width: 100%;
+  color: #333;
+  background-color: #ffc107;
+  overflow: hidden;
+  padding: 0;
+  font-weight: bold;
+}
+
+.host-btn:disabled {
+  background-color: #cccccc !important;
+  color: #888 !important;
+}
+
+.host-btn.ready-state {
+  background-color: #28a745;
+  color: white;
+  transition: all 0.5s ease-in-out;
+}
+
+
+
+#reveal-btn {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.reveal-btn-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #28a745;
+  transition: width 0.5s;
+  z-index: 1;
+}
+
+.reveal-btn-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#reveal-btn:disabled {
+  background: #cccccc !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+#clear-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+#clear-btn:hover {
+  background-color: #a71d2a;
+}
+
+.connection-status {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: none;
+}/* ================= ICONS ================= */
+/* Eye icon for live mode */
+.eye-icon {
+  background: none !important;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  vertical-align: middle;
+  padding: 0px;
+  color: #555;
+  transition: color 0.2s;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+}
+.eye-icon i {
+  color: #555;
+  transition: color 0.2s;
+  opacity: 0.3;
+}
+.eye-icon:hover i,
+.eye-icon.active i {
+  color: #007bff;
+  opacity: 1;
+}
+.eye-icon:focus {
+  outline: 2px solid #007bff;
+}
+/* Delete icon for responses */
+.delete-icon {
+  cursor: pointer;
+  margin-left: 12px;
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 4px;
+  transition: color 0.2s;
+}
+.delete-icon:hover {
+  color: #a71d2a;
+}
+
+/* ================= BUTTONS ================= */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: #0056b3;
+}
+button:disabled {
+  background-color: #cccccc !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+button.cancel-state {
+  background-color: #ffc107;
+  color: #333;
+}
+button.cancel-state:hover {
+  background-color: #e0a800;
+}
+.host-btn {
+  position: relative;
+  width: 100%;
+  color: #333;
+  background-color: #ffc107;
+  overflow: hidden;
+  padding: 0;
+  font-weight: bold;
+}
+.host-btn:disabled {
+  background-color: #cccccc !important;
+  color: #888 !important;
+}
+.host-btn.ready-state {
+  background-color: #28a745;
+  color: white;
+  transition: all 0.5s ease-in-out;
+}
+#reveal-btn {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+#reveal-btn:disabled {
+  background: #cccccc !important;
+  color: #888 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+#clear-btn {
+  background-color: #dc3545;
+  color: white;
+}
+#clear-btn:hover {
+  background-color: #a71d2a;
+}
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 60px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.close-btn:hover {
+  color: #333;
+  background-color: transparent;
+}
+
+/* ================= LAYOUT & CONTAINERS ================= */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+.info-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+.info-panel.visible {
+  opacity: 1;
+  visibility: visible;
+}
+#info-acesso-container {
+  position: relative;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  height: 24px;
+  min-width: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+.badge.visible {
+  display: block;
+}
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 2rem 0;
+}
+
+/* ================= INPUTS & SUBMISSION ================= */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+input[type='text'] {
+  width: 100%;
+  padding: 10px 45px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+input[type='text']:disabled {
+  background-color: #e9ecef;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+  border: 1px solid #bbb;
+}
+.submit-arrow {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #007bff;
+  padding: 0 12px;
+  margin: 0;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+.submit-arrow:hover {
+  color: #0056b3;
+  background-color: transparent;
+}
+.submit-arrow:disabled {
+  color: #cccccc !important;
+  cursor: not-allowed;
+  background-color: transparent !important;
+}
+
+/* ================= ADDRESS & QR CODE ================= */
+.endereco-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+.endereco-info {
+  text-align: left;
+  font-size: 16px;
+}
+.endereco-info a {
+  font-weight: bold;
+  color: #007bff;
+}
+.qr-code {
+  border: 1px solid #ccc;
+  min-width: 128px;
+  min-height: 128px;
+}
+
+/* ================= RESPONSES & PROGRESS ================= */
+#respostas-container {
+  margin-top: 20px;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 50px;
+  border: 1px solid #eee;
+}
+.resposta-item {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.resposta-grafico-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.barra-container {
+  position: relative;
+  height: 30px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.barra-preenchimento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  overflow: hidden;
+}
+.resposta-texto {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 20px);
+}
+.resposta-texto-bg {
+  color: #333;
+}
+.resposta-contagem {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 5px;
+}
+.reveal-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1rem;
+}
+.reveal-btn-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #28a745;
+  transition: width 0.5s;
+  z-index: 1;
+}
+.reveal-btn-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ================= FEEDBACK & CONNECTION ================= */
+.feedback {
+  color: green;
+  margin-top: 10px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.feedback.success {
+  color: #28a745;
+}
+.feedback.error {
+  color: #dc3545;
+}
+.connection-status {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: none;
+}
