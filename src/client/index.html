@@ -1,69 +1,13 @@
 <!doctype html>
 <html lang="pt-pt">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agora - Audience Response System</title>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-  <script type="module" src="/client.ts" defer></script>
-</head>
-
-<body>
-  <div class="container">
-    <h1 id="main-title">ἀγορά</h1>
-
-    <div id="participant-view">
-      <div class="input-container">
-        <input id="resposta-input" type="text" placeholder="Escreva aqui..." autocomplete="off" />
-        <button id="submit-btn" class="submit-arrow" title="Submeter resposta">
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </div>
-      <p id="feedback-message" class="feedback"></p>
-
-      <h3>As suas respostas</h3>
-      <div id="minhas-respostas-container">
-        <p>As suas respostas aparecerão aqui.</p>
-      </div>
-      <button id="pronto-btn">Pronto</button>
-    </div>
-
-    <div id="host-view" style="display: none">
-      <button id="show-info-btn" class="floating-btn" title="Mostrar Informação de Acesso">
-        <i class="fa-solid fa-link"></i>
-      </button>
-
-      <div id="info-acesso-panel" class="info-panel">
-        <div id="info-acesso-container">
-          <button id="close-info-btn" class="close-btn" title="Fechar">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-          <h3>Partilhe este endereço com a audiência:</h3>
-          <div id="enderecos-lista">A carregar endereços de rede...</div>
-        </div>
-      </div>
-
-      <p>
-        Você é o anfitrião. Aguarde as submissões e revele quando estiver
-        pronto.
-      </p>
-
-      <button id="reveal-btn">
-        <div class="reveal-btn-fill"></div>
-        <span class="reveal-btn-text">Revelar Respostas</span>
-      </button>
-      <button id="clear-btn" style="display: none">Limpar Respostas</button>
-
-      <h2 id="contador-respostas" style="margin: 0;">Respostas Recebidas: 0</h2>
-      <div id="respostas-container" style="position: relative;">
-        <button id="toggle-live-btn" class="eye-icon" title="Ver respostas em tempo real">
-          <i class="fa-solid fa-eye"></i>
-        </button>
-        <p>As respostas aparecerão aqui quando o anfitrião as revelar.</p>
-      </div>
-    </div>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' ws: wss: http: https:;" />
+    <title>Agora - Audience Response System</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/client.ts"></script>
+  </body>
 </html>

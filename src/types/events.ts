@@ -12,7 +12,6 @@ export const EVENTS = {
   IS_HOST: 'isHost',
   HOST_EXISTS: 'hostAlreadyExists',
   UPDATE_PARTICIPANT_STATE: 'estadoParticipantes',
-  UPDATE_COUNTER: 'atualizarContador',
+  UPDATE_RESPONSES: 'respostas',
   RESPONSES_REVEALED: 'respostasReveladas',
-  UPDATE_RESPONSES_LIVE: 'atualizarRespostasLive',
 } as const;

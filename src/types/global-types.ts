@@ -9,32 +9,13 @@ export interface EstadoParticipantes {
   aResponder: number;
 }
 
-// Definição da interface para o objeto de estado do servidor, incluindo os seus métodos.
-export interface EstadoAplicacao {
-  participantes: { [socketId: string]: Participante };
-  hostSocketId: string | null;
-  adicionarParticipante(id: string): void;
-  removerParticipante(id: string): void;
-  definirAnfitriao(id: string): boolean;
-  obterTodasAsRespostas(): string[];
-  obterEstadoParticipantes(): EstadoParticipantes;
-  limparRespostas(): void;
-}
-
-// Definição da interface para o estado da aplicação do cliente.
-export interface ClientState {
-  minhasRespostas: string[];
-  isReady: boolean;
-}
-
 // Tipos para os eventos Socket.IO para garantir a segurança de ponta a ponta
 export interface ServerToClientEvents {
   isHost: () => void;
   hostAlreadyExists: () => void;
   estadoParticipantes: (estado: EstadoParticipantes) => void;
-  atualizarContador: (num: number) => void;
+  respostas: (respostas: string[]) => void;
   respostasReveladas: (respostas: string[]) => void;
-  atualizarRespostasLive: (respostas: string[]) => void;
 }
 
 export interface ClientToServerEvents {
@@ -50,4 +31,8 @@ export interface ClientToServerEvents {
 // Tipos para a comunicação IPC do Electron
 export interface IpcApi {
   isElectronHost: () => Promise<boolean>;
+  getEnderecosRede: () => Promise<{ nome: string; endereco: string }[]>;
+  windowClose: () => Promise<void>;
+  windowToggleAlwaysOnTop: () => Promise<boolean>;
+  autoResizeHeight: () => Promise<void>;
 }

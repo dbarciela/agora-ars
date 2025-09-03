@@ -5,9 +5,14 @@
   "main": "dist/server/main.js",
   "scripts": {
     "start": "electron-forge start",
-    "dev": "concurrently \"npm:build:server\" \"npm:start:server\" \"npm:dev:client\"",
-    "build": "tsc && vite build",
-    "build:server": "tsc",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm:dev:client\" \"npm:dev:electron\"",
+    "dev:debug": "cross-env NODE_ENV=development npm run build:debug && concurrently \"npm:dev:client\" \"npm:dev:electron\"",
+    "dev:electron": "nodemon --watch src/server --watch src/types --ext ts,js --exec \"npm run build:server && electron .\"",
+    "dev:full": "npm run build:server && cross-env NODE_ENV=development concurrently \"npm:dev:client\" \"npm:dev:electron:watch\"",
+    "dev:electron:watch": "nodemon --watch dist/server --exec \"electron .\"",
+    "build": "tsc -p tsconfig.node.json && vite build",
+    "build:debug": "tsc -p tsconfig.node.json && cross-env NODE_ENV=development vite build",
+    "build:server": "tsc -p tsconfig.node.json",
     "start:server": "nodemon --watch dist dist/server/server.js",
     "build:client": "vite build",
     "dev:client": "vite",
@@ -19,7 +24,7 @@
   "author": "Agora Team",
   "license": "ISC",
   "engines": {
-    "node": ">=16.4.0"
+    "node": ">=24.7.0 "
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
@@ -39,6 +44,8 @@
     "@electron-forge/plugin-fuses": "^7.8.3",
     "@electron/fuses": "^1.8.0",
     "@eslint/js": "^9.34.0",
+    "@sveltejs/vite-plugin-svelte": "^6.1.4",
+    "@tsconfig/svelte": "^5.0.5",
     "@types/express": "^5.0.3",
     "@types/express-rate-limit": "^5.1.3",
     "@types/node": "^24.3.0",
@@ -48,14 +55,33 @@
     "@typescript-eslint/parser": "^8.41.0",
     "concurrently": "^9.2.1",
     "copyfiles": "^2.4.1",
+    "cross-env": "^10.0.0",
     "electron": "^37.4.0",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
+    "svelte": "^5.38.6",
+    "svelte-preprocess": "^5.1.4",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.41.0",
-    "vite": "^7.1.3"
+    "vite": "^7.1.4"
+  },
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "win32"
+          ]
+        }
+      ]
+    }
   }
 }

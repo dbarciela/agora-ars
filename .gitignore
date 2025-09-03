@@ -23,6 +23,19 @@ Thumbs.db
 # Build
 /dist/
 
+# TypeScript build info
+*.tsbuildinfo
+
+# Vite
+.vite/
+build/
+
+# SvelteKit (caso venha a ser usado futuramente)
+.svelte-kit/
+
+# IDEs
+.idea/
+
 # Squirrel installer
 *.nupkg
 RELEASES

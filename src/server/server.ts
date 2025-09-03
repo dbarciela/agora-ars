@@ -6,7 +6,10 @@ import rateLimit from 'express-rate-limit';
 import { PORT } from './config';
 import apiRoutes from './api/routes';
 import { setupSocketHandlers } from './socket/handler';
-import type { ClientToServerEvents, ServerToClientEvents } from '../types/global-types';
+import type {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '../types/global-types';
 
 // --- Configuração do Servidor Express ---
 const app = express();
@@ -30,6 +33,11 @@ app.use('/api', apiRoutes);
 // --- Rota Principal para o index.html ---
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientPath, 'index.html'));
+});
+
+// --- Rota para a página de informações (popup) ---
+app.get('/info.html', (req, res) => {
+  res.sendFile(path.join(clientPath, 'info.html'));
 });
 
 // --- Configuração do Socket.IO ---

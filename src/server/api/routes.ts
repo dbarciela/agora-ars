@@ -14,7 +14,7 @@ router.get('/enderecos', (req, res) => {
     if (!nets) continue;
     for (const net of nets) {
       if (net.family === 'IPv4' && !net.internal) {
-        enderecos.push({ nome: nome, endereco: net.address });
+        enderecos.push({ nome: nome, endereco: net.address, porta: PORT });
       }
     }
   }

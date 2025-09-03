@@ -1,0 +1,67 @@
+/* ================= PARTICIPANT VIEW ESPECÍFICO ================= */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+input[type='text'] {
+  width: 100%;
+  padding: 10px 45px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+input[type='text']:disabled {
+  background-color: #e9ecef;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+  border: 1px solid #bbb;
+}
+
+.submit-arrow {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #007bff;
+  padding: 0 12px;
+  margin: 0;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.submit-arrow:hover {
+  color: #0056b3;
+  background-color: transparent;
+}
+
+.submit-arrow:disabled {
+  color: #cccccc !important;
+  cursor: not-allowed;
+  background-color: transparent !important;
+}
+
+.resposta-item {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,230 @@
+.electron-controls .window-btn.eye.active {
+  background: rgba(0, 123, 255, 0.8);
+  color: white;
+}
+/* ================= HOST VIEW ESPECÍFICO ================= */
+
+/* ================= CONTROLES ELECTRON ================= */
+
+.electron-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  background: transparent;
+}
+
+.window-buttons.left,
+.window-buttons.right {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px;
+  -webkit-app-region: no-drag;
+}
+
+.drag-area {
+  width: 40px;
+  height: 100%;
+  -webkit-app-region: drag;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: rgb(100, 100, 100);
+  font-size: 12px;
+  transition: color 0.2s ease;
+}
+
+
+
+.window-buttons {
+  display: flex;
+  gap: 8px;
+  padding-right: 12px;
+  -webkit-app-region: no-drag;
+}
+
+/* Estilos específicos para os botões da janela - não afetam outros botões */
+.electron-controls .window-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0; /* Override do padding padrão dos botões */
+}
+
+.electron-controls .window-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #333;
+  transform: scale(1.1);
+}
+
+.electron-controls .window-btn.close:hover {
+  background: rgba(255, 59, 48, 0.8);
+  color: white;
+}
+
+.electron-controls .window-btn.pin.active {
+  background: rgba(40, 205, 65, 0.8);
+  color: white;
+}
+
+.electron-controls .window-btn.pin:hover {
+  background: rgba(40, 205, 65, 0.6);
+  color: white;
+}
+
+.electron-controls .window-btn.eye.active {
+  background: rgba(0, 123, 255, 0.8);
+  color: white;
+}
+
+.electron-controls .window-btn.eye:hover {
+  background: rgba(0, 123, 255, 0.6);
+  color: white;
+}
+
+/* Ajuste do conteúdo para os controles */
+#host-view {
+  position: relative;
+}
+
+/* Estilos específicos para botões do host - não afetam outros botões */
+
+#clear-btn {
+  background-color: #dc3545 !important;
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#clear-btn:hover {
+  background-color: #a71d2a;
+}
+
+/* --- Botão Revelar (Anfitrião) --- */
+#reveal-btn {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal-btn-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #28a745;
+  transition: width 0.5s;
+  z-index: 1;
+}
+
+.reveal-btn-text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* ================= VISUALIZAÇÃO DE RESPOSTAS ================= */
+#respostas-container {
+  margin-top: 20px;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 50px;
+  border: 1px solid #eee;
+  position: relative;
+}
+
+/* Gráfico de barras */
+.resposta-grafico-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.barra-container {
+  position: relative;
+  height: 30px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.barra-preenchimento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+}
+
+.resposta-texto {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 20px);
+  color: #333;
+}
+
+.resposta-contagem {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+/* Gráfico de barras */
+.resposta-grafico-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
