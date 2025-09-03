@@ -1,9 +1,9 @@
-import { contextBridge, ipcRenderer } from 'electron';
-import { IpcApi } from '../types/global-types';
+import type { IpcApi } from '../types/global-types';
 
-// Expõe um objeto `agoraAPI` à janela do renderer (frontend) de forma segura.
-const api: IpcApi = {
-  isElectronHost: () => ipcRenderer.invoke('is-electron-host'),
-};
-
-contextBridge.exposeInMainWorld('agoraAPI', api);
+declare global {
+  interface Window {
+    // Informa ao TypeScript que o objeto `window` global
+    // pode ter uma propriedade `agoraAPI` do tipo `IpcApi`.
+    agoraAPI?: IpcApi;
+  }
+}
