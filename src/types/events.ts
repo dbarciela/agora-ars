@@ -7,8 +7,13 @@ export const EVENTS = {
   CANCEL_READY: 'cancelarPronto',
   REVEAL_RESPONSES: 'revelarRespostas',
   CLEAR_RESPONSES: 'limparRespostas',
+  MERGE_RESPONSES: 'fundirRespostas',
 
   // Eventos do Servidor para o Cliente
+  // Evento para enviar/atualizar o contexto/pergunta atual
+  SET_QUESTION: 'definirPergunta',
+  UPDATE_QUESTION: 'atualizarPergunta',
+
   IS_HOST: 'isHost',
   HOST_EXISTS: 'hostAlreadyExists',
   UPDATE_PARTICIPANT_STATE: 'estadoParticipantes',

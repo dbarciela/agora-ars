@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import * as path from 'path';
 import rateLimit from 'express-rate-limit';
 import { PORT } from './config';
+import { logger } from './utils/logger';
 import apiRoutes from './api/routes';
 import { setupSocketHandlers } from './socket/handler';
 import type {
@@ -46,5 +47,5 @@ setupSocketHandlers(io); // Usa o nosso gestor de sockets modularizado
 
 // --- Iniciar o Servidor ---
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor "Agora" a correr na porta ${PORT}.`);
+  logger.info(`Servidor "Agora" a correr na porta ${PORT}.`);
 });

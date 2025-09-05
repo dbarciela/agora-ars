@@ -16,6 +16,8 @@ export interface ServerToClientEvents {
   estadoParticipantes: (estado: EstadoParticipantes) => void;
   respostas: (respostas: string[]) => void;
   respostasReveladas: (respostas: string[]) => void;
+  // Atualiza o contexto/pergunta atual para clientes
+  atualizarPergunta: (pergunta: string) => void;
 }
 
 export interface ClientToServerEvents {
@@ -26,12 +28,17 @@ export interface ClientToServerEvents {
   cancelarPronto: () => void;
   revelarRespostas: () => void;
   limparRespostas: () => void;
+  fundirRespostas: (payload: {
+    respostaArrastada: string;
+    respostaAlvo: string;
+  }) => void;
+  // Definir/atualizar a pergunta atual pelo host
+  definirPergunta: (pergunta: string) => void;
 }
 
 // Tipos para a comunicação IPC do Electron
 export interface IpcApi {
   isElectronHost: () => Promise<boolean>;
-  getEnderecosRede: () => Promise<{ nome: string; endereco: string }[]>;
   windowClose: () => Promise<void>;
   windowToggleAlwaysOnTop: () => Promise<boolean>;
   autoResizeHeight: () => Promise<void>;

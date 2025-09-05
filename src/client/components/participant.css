@@ -1,3 +1,7 @@
+.resposta-item:hover {
+  cursor: pointer;
+  background-color: #dcecfc;
+}
 /* ================= PARTICIPANT VIEW ESPECÍFICO ================= */
 .input-container {
   position: relative;

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Toast from './components/Toast.svelte';
   import './style.css';
   import { onMount } from 'svelte';
   import { isHost, isConnected } from './stores';
@@ -22,6 +23,7 @@
   }
 </script>
 
+<Toast />
 <div class="container">
   <h1 id="main-title">ἀγορά</h1>
 

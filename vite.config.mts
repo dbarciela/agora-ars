@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 import path from 'path';
+import { logger } from './src/server/utils/logger';
 
 export default defineConfig({
   root: path.join(__dirname, 'src', 'client'),
@@ -12,7 +13,7 @@ export default defineConfig({
       // Enable hot reload in development
       hot: process.env.NODE_ENV === 'development',
       // Force full reload on changes
-      emitCss: true
+      emitCss: true,
     }),
   ],
   build: {
@@ -25,21 +26,21 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.join(__dirname, 'src', 'client', 'index.html'),
-        info: path.join(__dirname, 'src', 'client', 'info.html')
-      }
-    }
+        info: path.join(__dirname, 'src', 'client', 'info.html'),
+      },
+    },
   },
   server: {
     port: 5173,
     strictPort: true, // Força o uso da porta 5173, falha se estiver ocupada
     // Fix for Electron dev mode
     hmr: {
-      port: 5174
+      port: 5174,
     },
     // Disable file watching issues
     watch: {
       usePolling: true,
-      interval: 100
+      interval: 100,
     },
     proxy: {
       '/socket.io': {
@@ -50,13 +51,13 @@ export default defineConfig({
         timeout: 60000,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
-            console.log('proxy error', err);
+            logger.error('proxy error', { err: String(err) });
           });
           proxy.on('proxyReq', (proxyReq, req, _res) => {
-            console.log('Sending Request:', req.method, req.url);
+            logger.debug('Sending Request', { method: req.method, url: req.url });
           });
           proxy.on('proxyRes', (proxyRes, req, _res) => {
-            console.log('Received Response:', proxyRes.statusCode, req.url);
+            logger.debug('Received Response', { statusCode: proxyRes.statusCode, url: req.url });
           });
         },
       },

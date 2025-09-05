@@ -9,6 +9,9 @@ export const isReady: Writable<boolean> = writable(false);
 export const respostas: Writable<string[]> = writable([]);
 export const respostasReveladas: Writable<boolean> = writable(false);
 
+// Texto opcional com o contexto/pergunta atual (visível a todos os clientes)
+export const perguntaAtual: Writable<string> = writable('');
+
 // Estado do servidor recebido via Socket.IO
 export const estadoParticipantes: Writable<EstadoParticipantes> = writable({
   prontos: 0,

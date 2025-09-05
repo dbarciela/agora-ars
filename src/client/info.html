@@ -1,42 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Informações de Acesso - Agora</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Ajustar o InfoPanel para funcionar como página completa */
-    :global(.info-panel) {
-      position: static !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      background-color: rgba(0, 0, 0, 0.1) !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-    }
-    
-    :global(#info-acesso-container) {
-      max-width: 95vw !important;
-      max-height: 95vh !important;
-      margin: 0 !important;
-    }
-  </style>
-</head>
-<body>
-  <div id="info-root"></div>
-  <script type="module" src="info.ts"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Informações de Acesso - Agora</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Ajustar o InfoPanel para funcionar como página completa */
+      :global(.info-panel) {
+        position: static !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      :global(#info-acesso-container) {
+        max-width: 95vw !important;
+        max-height: 95vh !important;
+        margin: 0 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info-root"></div>
+    <script type="module" src="info.ts"></script>
+  </body>
 </html>

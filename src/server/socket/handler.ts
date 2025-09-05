@@ -5,6 +5,7 @@ import type {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '../../types/global-types';
+import { logger } from '../utils/logger';
 
 function escapeHtml(text: string): string {
   if (typeof text !== 'string') return '';
@@ -28,25 +29,24 @@ export function setupSocketHandlers(
   io.on(
     'connection',
     (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
-      console.log('🔌 Nova conexão Socket.IO:', socket.id);
-      console.log('🔌 URL de origem:', socket.handshake.headers.origin);
-      console.log('🔌 Referer:', socket.handshake.headers.referer);
-      
+  logger.info('Nova conexão Socket.IO', { socketId: socket.id, origin: socket.handshake.headers.origin, referer: socket.handshake.headers.referer });
+
       socket.on(EVENTS.REGISTER_HOST, () => {
-        console.log('👑 Tentativa de registro como host por:', socket.id);
-        console.log('👑 Host atual:', estadoAplicacao.hostSocketId);
+        logger.info('Tentativa de registro como host', { socketId: socket.id, currentHost: estadoAplicacao.hostSocketId });
         if (estadoAplicacao.definirAnfitriao(socket.id)) {
-          console.log('✅ Host registrado com sucesso:', socket.id);
+          logger.info('Host registrado com sucesso', { socketId: socket.id });
           socket.emit(EVENTS.IS_HOST);
           emitirAtualizacoesGlobais();
         } else {
-          console.log('❌ Host já existe, rejeitando:', socket.id);
+          logger.info('Host já existe, rejeitando', { socketId: socket.id });
           socket.emit(EVENTS.HOST_EXISTS);
         }
       });
 
-      estadoAplicacao.adicionarParticipante(socket.id);
-      emitirAtualizacoesGlobais();
+  estadoAplicacao.adicionarParticipante(socket.id);
+  // Enviar pergunta atual ao cliente que se liga
+  socket.emit(EVENTS.UPDATE_QUESTION, estadoAplicacao.perguntaAtual);
+  emitirAtualizacoesGlobais();
 
       socket.on(EVENTS.SUBMIT_RESPONSE, (resposta) => {
         const participante = estadoAplicacao.participantes[socket.id];
@@ -91,7 +91,7 @@ export function setupSocketHandlers(
 
       socket.on(EVENTS.REVEAL_RESPONSES, () => {
         if (socket.id === estadoAplicacao.hostSocketId) {
-          console.log('🎯 Host revelou respostas - Notificando todos os participantes');
+          logger.info('Host revelou respostas - Notificando todos os participantes', { hostId: socket.id });
           const respostas = estadoAplicacao.obterTodasAsRespostas();
           io.emit(EVENTS.RESPONSES_REVEALED, respostas);
           emitirAtualizacoesGlobais();
@@ -104,6 +104,25 @@ export function setupSocketHandlers(
           emitirAtualizacoesGlobais();
         }
       });
+
+      // Host define/atualiza a pergunta/contexto
+      socket.on(EVENTS.SET_QUESTION, (pergunta) => {
+        if (socket.id === estadoAplicacao.hostSocketId) {
+          const perguntaSanitizada = escapeHtml((pergunta || '').trim()).slice(0, 200);
+          estadoAplicacao.definirPergunta(perguntaSanitizada);
+          io.emit(EVENTS.UPDATE_QUESTION, estadoAplicacao.perguntaAtual);
+        }
+      });
+
+      socket.on(
+        EVENTS.MERGE_RESPONSES,
+        ({ respostaArrastada, respostaAlvo }) => {
+          if (socket.id === estadoAplicacao.hostSocketId) {
+            estadoAplicacao.fundirRespostas(respostaArrastada, respostaAlvo);
+            emitirAtualizacoesGlobais();
+          }
+        }
+      );
 
       socket.on('disconnect', () => {
         estadoAplicacao.removerParticipante(socket.id);

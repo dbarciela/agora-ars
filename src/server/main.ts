@@ -1,7 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as os from 'os';
-import { PORT } from './config';
+import { PORT, VITE_DEV_PORT } from './config';
+import { logger } from './utils/logger';
 
 // Inicia o servidor web e Socket.IO em segundo plano.
 import './server';
@@ -15,9 +16,9 @@ function createWindow(): void {
     transparent: true, // Torna o fundo transparente
     backgroundColor: 'rgba(0,0,0,0)', // Fundo completamente transparente
     width: 430,
-    height: 450, // Altura inicial maior
+    height: 500, // Altura inicial maior
     minWidth: 350,
-    minHeight: 450,
+    minHeight: 500,
     useContentSize: true, // Usa o tamanho do conteúdo
     center: true, // Centralizar a janela
     x: undefined, // Deixar o Electron escolher a posição inicial
@@ -32,19 +33,18 @@ function createWindow(): void {
 
   // Carrega o frontend a partir do servidor local.
   const isDev = process.env.NODE_ENV === 'development';
-  const VITE_DEV_PORT = process.env.VITE_DEV_PORT || process.env.VITE_PORT || 5173;
-  const url = isDev ? `http://localhost:${VITE_DEV_PORT}/?host=true` : `http://localhost:${PORT}/?host=true`;
+  const url = isDev
+    ? `http://localhost:${VITE_DEV_PORT}/?host=true`
+    : `http://localhost:${PORT}/?host=true`;
 
-  console.log(`🔗 Carregando URL no Electron: ${url}`);
-  console.log(`🔧 Modo desenvolvimento: ${isDev}`);
-  console.log(`🔧 Porta Vite: ${VITE_DEV_PORT}`);
+  logger.info(`Carregando URL no Electron: ${url}`, { isDev, VITE_DEV_PORT });
 
   mainWindow.loadURL(url);
 
   // Ativar zoom após carregar
   mainWindow.webContents.once('did-finish-load', () => {
     if (!mainWindow) return;
-    // Permitir zoom explicitamente
+  // Permitir zoom explicitamente
     mainWindow.webContents.setZoomLevel(0); // Reset para zoom padrão
   });
 
@@ -74,14 +74,13 @@ function createWindow(): void {
 
     mainWindow.webContents.insertCSS(`
       body {
-        border: 3px solid transparent;
         box-sizing: border-box;
       }
       body:hover {
         border-color: rgba(0, 123, 255, 0.3);
       }
     `);
-    
+
     // Habilitar zoom com Ctrl + roda do rato
     mainWindow.webContents.executeJavaScript(`
       let currentZoom = 1.0;
@@ -102,6 +101,7 @@ function createWindow(): void {
           }
           
           document.body.style.zoom = currentZoom;
+          // keep a lightweight debug log in renderer context
           console.log('🔍 Zoom alterado para:', Math.round(currentZoom * 100) + '%');
         }
       }, { passive: false });
@@ -120,14 +120,15 @@ function createWindow(): void {
 
   // Handler para novas janelas (popups) abrirem sem frame
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.includes('/info.html')) { // Ou qualquer condição para filtrar
+    if (url.includes('/info.html')) {
+      // Ou qualquer condição para filtrar
       return {
         action: 'allow',
         overrideBrowserWindowOptions: {
           frame: true, // Mantém a barra de título nativa
           menuBarVisible: false, // Remove a barra de menu (File, Edit, etc.)
-          width: 800,
-          height: 600,
+          width: 570,
+          height: 700,
           resizable: true,
           webPreferences: {
             nodeIntegration: false,
@@ -173,23 +174,4 @@ ipcMain.handle('window-toggle-always-on-top', () => {
 });
 
 //TODO Atualizar altura da janela quando há mudanças nas respostas
-ipcMain.handle('auto-resize-height', async (event) => {
-});
-
-ipcMain.handle('get-enderecos-rede', () => {
-  const interfaces = os.networkInterfaces();
-  const enderecos = [];
-  for (const nome of Object.keys(interfaces)) {
-    const nets = interfaces[nome];
-    if (!nets) continue;
-    for (const net of nets) {
-      if (net.family === 'IPv4' && !net.internal) {
-        enderecos.push({
-          nome: nome,
-          endereco: `http://${net.address}:${PORT}`,
-        });
-      }
-    }
-  }
-  return enderecos;
-});
+ipcMain.handle('auto-resize-height', async (event) => {});

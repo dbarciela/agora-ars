@@ -8,7 +8,7 @@ function handleClose() {
 // Aguardar o DOM estar pronto antes de inicializar o componente
 function initApp() {
   const targetElement = document.getElementById('info-root');
-  
+
   if (!targetElement) {
     console.error('Elemento info-root não encontrado');
     return;
@@ -19,10 +19,10 @@ function initApp() {
     const app = mount(InfoPanel, {
       target: targetElement,
       props: {
-        onClose: handleClose
-      }
+        onClose: handleClose,
+      },
     });
-    
+
     console.log('InfoPanel inicializado com sucesso na página popup');
     return app;
   } catch (error) {

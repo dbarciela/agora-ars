@@ -1,12 +1,22 @@
 <script lang="ts">
-  import './info.css';
-  import { onMount } from 'svelte';
-  
-  export let onClose: () => void;
-  
-  let enderecos: { nome: string; endereco: string; porta: number }[] = [];
-  let isLoading = true;
-  let error = '';
+
+import './info.css';
+import { onMount } from 'svelte';
+export let onClose: () => void;
+let enderecos: { nome: string; endereco: string; porta: number }[] = [];
+let isLoading = true;
+let error = '';
+
+  let copiedIndex = -1;
+  let copyTimeout: number;
+
+  function copyToClipboard(text: string, index: number) {
+    navigator.clipboard.writeText(text).then(() => {
+      copiedIndex = index;
+      clearTimeout(copyTimeout);
+      copyTimeout = window.setTimeout(() => { copiedIndex = -1; }, 2000);
+    });
+  }
 
   function debugLog(message: string, data?: any) {
     console.log(`[InfoPanel] ${message}`, data);
@@ -73,7 +83,7 @@
       {:else if enderecos.length === 0}
         <p>Nenhum endereço encontrado</p>
       {:else}
-        {#each enderecos as net}
+        {#each enderecos as net, i}
           <div class="endereco-item">
             <img
               class="qr-code"
@@ -87,6 +97,10 @@
               <a href={`http://${net.endereco}:${net.porta}`} target="_blank"
                 >{`http://${net.endereco}:${net.porta}`}</a
               >
+              <button class="copy-btn" on:click={() => copyToClipboard(`http://${net.endereco}:${net.porta}`, i)}>
+                <i class="fa-solid {copiedIndex === i ? 'fa-check' : 'fa-copy'}"></i>
+                {copiedIndex === i ? 'Copiado!' : 'Copiar'}
+              </button>
             </div>
           </div>
         {/each}

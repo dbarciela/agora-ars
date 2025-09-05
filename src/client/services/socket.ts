@@ -12,6 +12,7 @@ import {
   minhasRespostas,
   isReady,
   respostasReveladas,
+  perguntaAtual,
 } from '../stores';
 
 export const SocketService = {
@@ -73,8 +74,16 @@ export function setupSocketListeners() {
     }
   });
 
+  // Registrar o evento de atualização da pergunta; usar cast para contornar tipos estritos do Socket.IO
+  socket.on(('atualizarPergunta' as unknown) as any, (pergunta: string) => {
+    perguntaAtual.set(pergunta || '');
+  });
+
   socket.on(EVENTS.RESPONSES_REVEALED, (respostas) => {
-    console.log('🎯 Recebido evento RESPONSES_REVEALED com respostas:', respostas);
+    console.log(
+      '🎯 Recebido evento RESPONSES_REVEALED com respostas:',
+      respostas
+    );
     // Bloqueia participantes apenas se há respostas reveladas
     const shouldBlock = respostas && respostas.length > 0;
     respostasReveladas.set(shouldBlock);
