@@ -18,6 +18,8 @@ export interface ServerToClientEvents {
   respostasReveladas: (respostas: string[]) => void;
   // Atualiza o contexto/pergunta atual para clientes
   atualizarPergunta: (pergunta: string) => void;
+  // Notifica sobre mudança do modo live
+  modoLiveAlterado: (isLiveMode: boolean) => void;
 }
 
 export interface ClientToServerEvents {
@@ -34,6 +36,8 @@ export interface ClientToServerEvents {
   }) => void;
   // Definir/atualizar a pergunta atual pelo host
   definirPergunta: (pergunta: string) => void;
+  // Alternar modo live pelo host
+  alternarModoLive: (isLiveMode: boolean) => void;
 }
 
 // Tipos para a comunicação IPC do Electron

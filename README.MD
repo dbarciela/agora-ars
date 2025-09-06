@@ -9,6 +9,15 @@ O nome **Agora** tem um duplo significado que resume a sua função e propósito
 1. **A Ágora Grega:** Na Grécia Antiga, a **Ágora** (_agorá_) era a praça pública onde ocorriam debates e assembleias. A aplicação inspira-se neste conceito ao criar um espaço digital onde as opiniões da audiência, partilhadas anonimamente, servem de base para a discussão.
 2. **O Advérbio "Agora":** O nome remete também para a natureza instantânea da aplicação. A interação ocorre em tempo real, uma funcionalidade suportada pelo uso de **Socket.IO** para a comunicação de baixa latência. Esta característica permite aferir a perceção da audiência no momento exato em que um tema é abordado.
 
+## **Filosofia**
+
+O **Agora** foi desenhado com base em quatro pilares fundamentais:
+
+- **Simplicidade e Versatilidade:** A ferramenta é intencionalmente minimalista. O objetivo é oferecer funcionalidades poderosas sem sobrecarregar o utilizador, garantindo que se adapta a múltiplos contextos, desde salas de aula a conferências.
+- **Fluxo de Trabalho Flexível:** A aplicação não impõe regras estritas. Cada anfitrião tem a liberdade de usar as funcionalidades da forma que melhor se ajusta ao seu estilo de apresentação e às necessidades do momento.
+- **Interface Discreta para o Anfitrião:** A interface do anfitrião foi projetada para ocupar o mínimo de espaço de ecrã possível. Isto permite que a janela da aplicação permaneça visível sobre uma apresentação, facilitando a gestão da interação sem interromper o fluxo do apresentador.
+- **Autónomo e Efémero:** O Agora é uma solução _zero-config_. Não requer bases de dados, servidores externos ou qualquer tipo de instalação complexa. Todas as interações ocorrem em memória e são descartadas no final da sessão, garantindo a simplicidade e privacidade de cada evento. Basta executar e usar.
+
 ## **Objetivo**
 
 O principal objetivo do **Agora** é aumentar a participação em contextos onde o receio de dar uma resposta errada possa inibir a audiência. Ao garantir o **anonimato**, a aplicação remove essa barreira, criando um ambiente seguro para que todos possam participar ativamente. Isto permite não só aumentar a interatividade, mas também utilizar as respostas — certas e erradas — como uma ferramenta eficaz para provocar a discussão, corrigir perceções e consolidar o conhecimento do grupo.
@@ -106,15 +115,11 @@ Eventos Emitidos pelo Cliente:
 - respostasReveladas: Envia a lista de respostas a todos os clientes quando o anfitrião as revela.
 - atualizarPergunta: Envia a pergunta/contexto atual a todos os clientes.
 
-## **Futuro do Projeto: Salas Temáticas**
-
-Está prevista a implementação de um sistema multi-sala. Para manter a coerência conceptual, cada sala criada receberá o nome de uma **ágora histórica do mundo grego antigo**. Em vez de códigos alfanuméricos, os participantes juntar-se-ão a salas como _Atenas_, _Esparta_, _Corinto_ ou _Mileto_.
-
 ## **Instalação e Execução**
 
 **Pré-requisitos:**
 
-- Node.js (versão 20.x ou superior recomendada)
+- Node.js (versão >=24.7.0 - compatível com o campo `engines` em `package.json`; recomendamos Node.js 24.7.0 ou superior)
 
 Para executar o projeto localmente:
 

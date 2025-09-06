@@ -6,7 +6,7 @@
 body {
   font-family: 'Arial', sans-serif;
   background: transparent; /* Fundo transparente */
-  color: #333;
+  color: var(--text);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,19 +16,40 @@ body {
   text-align: center;
 }
 
-#main-title {
-  font-family: 'Noto Serif Display', serif;
-  font-size: 3rem;
-  font-weight: 900;
-  letter-spacing: 0.2rem;
-  color: #333;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  text-transform: lowercase;
+/* Theme variables for consistent colors across components */
+:root {
+  --primary: #007bff;
+  --primary-dark: #0056b3;
+  --text: #333;
+  --muted: #666;
+  --muted-2: #888;
+  --surface: #fff;
+  --bg-surface: #f9f9f9;
+  --panel-bg-alpha: rgba(249, 249, 249, 0.75);
+  --border: #eee;
+  --border-strong: #ccc;
+  --success: #28a745;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --warning-dark: #e0a800;
+  --disabled: #cccccc;
+  --overlay: rgba(0, 0, 0, 0.75);
+  --highlight: rgba(0, 123, 255, 0.05);
+}
+
+/* ================= LAYOUT ELECTRON (ANFITRIÃO) ================= */
+body.electron-host {
+  /* Remove centring and fills full window */
+  display: block;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .container {
-  background: rgba(255, 255, 255, 0.95);
+  background: transparent;
   backdrop-filter: blur(20px);
   padding: 2rem;
   border-radius: 12px;
@@ -39,15 +60,33 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Full layout container when in Electron host mode */
+body.electron-host .container {
+  background: transparent;
+  backdrop-filter: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  max-width: none;
+  border: none;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.9); /* Mais transparente (85% opaco) */
+  border-radius: 12px;
+}
+
 hr {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
   margin: 2rem 0;
 }
 
 /* ================= BOTÕES ================= */
 button {
-  background-color: #007bff;
+  background-color: var(--primary);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -58,23 +97,23 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-dark);
 }
 
 button:disabled {
-  background-color: #cccccc !important;
-  color: #888 !important;
+  background-color: var(--disabled) !important;
+  color: var(--muted-2) !important;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
 button.cancel-state {
-  background-color: #ffc107;
-  color: #333;
+  background-color: var(--warning);
+  color: var(--text);
 }
 
 button.cancel-state:hover {
-  background-color: #e0a800;
+  background-color: var(--warning-dark);
 }
 
 /* ================= ÍCONES & FEEDBACK ================= */
@@ -86,17 +125,17 @@ button.cancel-state:hover {
 }
 
 .feedback.success {
-  color: #28a745;
+  color: var(--success);
 }
 
 .feedback.error {
-  color: #dc3545;
+  color: var(--danger);
 }
 
 .delete-icon {
   cursor: pointer;
   margin-left: 12px;
-  color: #dc3545;
+  color: var(--danger);
   font-weight: bold;
   font-size: 18px;
   padding: 4px;
@@ -105,11 +144,11 @@ button.cancel-state:hover {
 
 button.delete-icon {
   background: none !important;
-  color: #dc3545;
+  color: var(--danger);
 }
 
 .delete-icon:hover {
-  color: #a71d2a;
+  color: color-mix(in srgb, var(--danger) 70%, black 30%);
 }
 
 /* ================= ESTADO DA CONEXÃO ================= */
@@ -118,9 +157,9 @@ button.delete-icon {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(220, 53, 69, 0.9);
+  background: color-mix(in srgb, var(--danger) 90%, black 10%);
   backdrop-filter: blur(10px);
-  color: white;
+  color: var(--surface);
   padding: 10px;
   text-align: center;
   display: none;

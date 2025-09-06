@@ -4,6 +4,7 @@ import type { EstadoParticipantes } from '../types/global-types';
 // Estado da aplicação
 export const isHost: Writable<boolean> = writable(false);
 export const isLiveMode: Writable<boolean> = writable(false);
+export const isLiveModeFromHost: Writable<boolean> = writable(false); // Estado do modo live recebido do host
 export const minhasRespostas: Writable<string[]> = writable([]);
 export const isReady: Writable<boolean> = writable(false);
 export const respostas: Writable<string[]> = writable([]);

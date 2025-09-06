@@ -1,0 +1,200 @@
+/* Styles for the Respostas component (counter and container) */
+
+#contador-respostas {
+  margin-top: 32px;
+  font-size: 18px;
+}
+
+/* Controls row above the container */
+.respostas-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end; /* align to right */
+  position: absolute; /* position inside container */
+  top: 3px; /* subir os botões ~5px (era 8px) */
+  right: 8px;
+  margin: 0;
+}
+
+#respostas-container {
+  margin-top: 0; /* controls no longer occupy previous top margin */
+  text-align: left;
+  background-color: var(--panel-bg-alpha);
+  /* aumentar padding-top para reservar espaço interno para os botões absolutos */
+  padding: 32px 15px 15px 15px;
+  border-radius: 4px;
+  min-height: 50px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+/* Layout optimizations for Electron full-screen mode */
+body.electron-host #respostas-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+body.electron-host .respostas-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+body.electron-host #contador-respostas {
+  flex-shrink: 0;
+  margin-bottom: 15px;
+}
+
+/* Scoped sort button to avoid host.css overrides */
+
+.respostas-controls .sort-icon-btn,
+.respostas-controls .copy-icon-btn {
+  /* Ensure these controls are inline and not affected by global host.css .sort-icon-btn (which uses absolute) */
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px;
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.respostas-controls .sort-icon-btn i,
+.respostas-controls .copy-icon-btn i {
+  font-size: 14px;
+}
+
+/* Hover/focus state: use the project's primary blue for icon buttons */
+.respostas-controls .sort-icon-btn:hover,
+.respostas-controls .copy-icon-btn:hover,
+.respostas-controls .sort-icon-btn:focus,
+.respostas-controls .copy-icon-btn:focus {
+  color: var(--primary);
+  outline: none;
+  background-color: transparent;
+  transition: color 0.15s ease-in-out;
+}
+
+/* maintain minimal spacing for the list */
+.respostas-list {
+  min-height: 40px;
+}
+
+/* resposta grafico item styles moved from RespostaGraficoItem.svelte */
+.resposta-grafico-item {
+  /* revert to grid layout from original design to ensure barra width is full */
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  transition:
+    transform 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
+  /* Reset button styles to override global button CSS */
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  text-align: left !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  border-radius: 0 !important;
+  /* Ensure proper layout */
+  box-sizing: border-box;
+}
+
+.resposta-grafico-item:hover {
+  background: var(--highlight) !important;
+}
+
+.resposta-grafico-item:disabled {
+  background: none !important;
+  color: inherit !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
+.resposta-grafico-item.is-dragging {
+  opacity: 0.7;
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.resposta-grafico-item.is-dragged-over {
+  outline: 2px dashed rgba(0, 123, 255, 0.5);
+}
+
+.resposta-grafico-item.destacada {
+  background: rgba(255, 235, 59, 0.12) !important;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(0, 123, 255);
+  background-color: rgba(0, 123, 255, 0.04) !important;
+  border-radius: 6px;
+}
+
+/* Remove visual difference between single and multiple selection
+.resposta-grafico-item.destacada.multi-selected {
+  background-color: rgba(255, 152, 0, 0.08) !important;
+  box-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
+  border: 2px solid rgba(255, 152, 0, 0.4);
+}
+*/
+
+.barra-container {
+  position: relative;
+  height: 30px;
+  background-color: var(--bg-surface);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.barra-preenchimento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* use theme primary */
+  background-color: var(--primary) !important;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+  z-index: 1;
+}
+
+.resposta-texto {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 60px); /* Reserve space for count */
+  color: var(--text);
+  font-size: 14px;
+  z-index: 2;
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+.resposta-contagem {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 5px;
+  color: var(--text);
+  min-width: 30px;
+}

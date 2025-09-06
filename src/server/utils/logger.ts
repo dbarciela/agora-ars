@@ -24,7 +24,11 @@ export const logger = {
   },
   debug(message: string, meta?: Meta) {
     // debug uses console.debug when available
-    if ((console as any).debug) (console as any).debug(`[${timeStamp()}] [DEBUG] ${message}`, formatMeta(meta));
+    if ((console as any).debug)
+      (console as any).debug(
+        `[${timeStamp()}] [DEBUG] ${message}`,
+        formatMeta(meta)
+      );
     else console.log(`[${timeStamp()}] [DEBUG] ${message}`, formatMeta(meta));
   },
 };

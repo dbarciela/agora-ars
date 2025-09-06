@@ -7,6 +7,20 @@ let enderecos: { nome: string; endereco: string; porta: number }[] = [];
 let isLoading = true;
 let error = '';
 
+let lightboxVisible = false;
+let lightboxSrc = '';
+let lightboxContainer: HTMLDivElement | null = null;
+
+// attach global key listener for Escape when lightbox is open
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && lightboxVisible) closeLightbox();
+}
+
+onMount(() => {
+  window.addEventListener('keydown', handleKeydown);
+  return () => window.removeEventListener('keydown', handleKeydown);
+});
+
   let copiedIndex = -1;
   let copyTimeout: number;
 
@@ -16,6 +30,30 @@ let error = '';
       clearTimeout(copyTimeout);
       copyTimeout = window.setTimeout(() => { copiedIndex = -1; }, 2000);
     });
+  }
+
+  function openLightbox(src: string) {
+    lightboxSrc = src;
+    lightboxVisible = true;
+    // focus will be set when the element is rendered
+  }
+
+  function closeLightbox() {
+    lightboxVisible = false;
+    lightboxSrc = '';
+  }
+
+  function handleOverlayClick(e: MouseEvent) {
+    // close only when clicking the backdrop (not the image)
+    if (e.target === e.currentTarget) closeLightbox();
+  }
+
+  function handleOverlayKeydown(e: KeyboardEvent) {
+    // allow closing with Enter or Space when the backdrop is focused
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      closeLightbox();
+    }
   }
 
   function debugLog(message: string, data?: any) {
@@ -85,13 +123,15 @@ let error = '';
       {:else}
         {#each enderecos as net, i}
           <div class="endereco-item">
-            <img
-              class="qr-code"
-              width="128"
-              height="128"
-              src={`/api/qrcode?url=${encodeURIComponent(`http://${net.endereco}:${net.porta}`)}`}
-              alt="QR Code"
-            />
+            <button class="qr-button" on:click={() => openLightbox(`/api/qrcode?size=512&url=${encodeURIComponent(`http://${net.endereco}:${net.porta}`)}`)} aria-label={`Abrir QR code de ${net.nome}`}>
+              <img
+                class="qr-code"
+                width="128"
+                height="128"
+                src={`/api/qrcode?url=${encodeURIComponent(`http://${net.endereco}:${net.porta}`)}`}
+                alt={`QR Code para ${net.nome}`}
+              />
+            </button>
             <div class="endereco-info">
               <h3>{net.nome}</h3>
               <a href={`http://${net.endereco}:${net.porta}`} target="_blank"
@@ -108,3 +148,24 @@ let error = '';
     </div>
   </div>
 </div>
+
+{#if lightboxVisible}
+  <div bind:this={lightboxContainer} class="qr-lightbox" role="dialog" aria-modal="true" aria-label="QR code enlarged" tabindex="-1" on:click={handleOverlayClick} on:keydown={handleOverlayKeydown}>
+    <button class="qr-lightbox-close" aria-label="Fechar" on:click={closeLightbox}>
+      ×
+    </button>
+    <div class="qr-lightbox-content">
+      <img src={lightboxSrc} alt="QR Code enlarged" />
+    </div>
+  </div>
+  {@html ''}
+  {#key lightboxVisible}
+    {() => {
+      // after render, move focus into the dialog
+      setTimeout(() => {
+        if (lightboxContainer) lightboxContainer.focus();
+      }, 0);
+      return '';
+    }}
+  {/key}
+{/if}

@@ -13,6 +13,7 @@ import {
   isReady,
   respostasReveladas,
   perguntaAtual,
+  isLiveModeFromHost,
 } from '../stores';
 
 export const SocketService = {
@@ -56,6 +57,8 @@ export function setupSocketListeners() {
 
   socket.on(EVENTS.HOST_EXISTS, () => {
     // Em desenvolvimento, pode haver múltiplas conexões devido ao hot reload
+    // If host exists, ensure this client is not marked as host.
+    isHost.set(false);
     if (import.meta.env.DEV) {
       return;
     }
@@ -74,8 +77,8 @@ export function setupSocketListeners() {
     }
   });
 
-  // Registrar o evento de atualização da pergunta; usar cast para contornar tipos estritos do Socket.IO
-  socket.on(('atualizarPergunta' as unknown) as any, (pergunta: string) => {
+  // Registrar o evento de atualização da pergunta usando a constante tipada
+  socket.on(EVENTS.UPDATE_QUESTION, (pergunta: string) => {
     perguntaAtual.set(pergunta || '');
   });
 
@@ -87,5 +90,10 @@ export function setupSocketListeners() {
     // Bloqueia participantes apenas se há respostas reveladas
     const shouldBlock = respostas && respostas.length > 0;
     respostasReveladas.set(shouldBlock);
+  });
+
+  socket.on(EVENTS.LIVE_MODE_CHANGED, (isLiveMode: boolean) => {
+    console.log('🎯 Recebido evento LIVE_MODE_CHANGED:', isLiveMode);
+    isLiveModeFromHost.set(isLiveMode);
   });
 }

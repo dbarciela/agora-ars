@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Botão Composto</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      /* Container para o botão composto */
+      .composite-button-container {
+        display: flex;
+        width: fit-content;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+      }
+
+      /* Estilização geral dos botões */
+      .composite-button-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        border: none;
+        transition: background-color 0.3s ease;
+        position: relative; /* Essencial para o posicionamento das linhas */
+      }
+
+      /* Efeito hover para todos os botões */
+      .composite-button-item:hover {
+        background-color: #e0e0e0;
+      }
+
+      /* Estilização específica para o botão central */
+      .composite-button-item.middle {
+        flex-grow: 1;
+        padding: 10px 20px;
+      }
+
+      /* ----- Linhas verticais de separação (agora funcionam) ----- */
+
+      /* Linha entre o botão esquerdo e o central */
+      .composite-button-item.left::after {
+        content: '';
+        width: 1px;
+        height: 60%;
+        background-color: #ccc;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+
+      /* Linha entre o botão central e o direito */
+      .composite-button-item.middle::after {
+        content: '';
+        width: 1px;
+        height: 60%;
+        background-color: #ccc;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="composite-button-container"
+      role="group"
+      aria-label="Opções de revelação de respostas"
+    >
+      <button
+        class="composite-button-item left"
+        aria-label="Revelar melhor resposta"
+        title="Revela apenas a melhor resposta"
+      >
+        <i class="fas fa-trophy"></i>
+      </button>
+
+      <button
+        class="composite-button-item middle"
+        title="Revela todas as respostas disponíveis"
+      >
+        Revelar respostas
+      </button>
+
+      <button
+        class="composite-button-item right"
+        aria-label="Revelar resposta aleatória"
+        title="Revela uma resposta aleatória"
+      >
+        <i class="fas fa-dice"></i>
+      </button>
+    </div>
+  </body>
+</html>

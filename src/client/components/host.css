@@ -1,20 +1,5 @@
 /* Drag-and-drop feedback visual para HostView.svelte */
-.is-dragging {
-  opacity: 0.5;
-  border: 2px dashed #007bff;
-  background: #e9f5ff;
-}
-.is-dragged-over {
-  outline: 2px solid #28a745;
-  transform: scale(1.02);
-  background: #eaffea;
-}
-.resposta-grafico-item {
-  transition:
-    transform 0.1s ease-in-out,
-    background-color 0.1s ease-in-out;
-  margin-bottom: 8px;
-}
+/* global DnD visual rules removed — scoped variants live in respostas.css */
 /* Botão de ordenação discreto no canto superior direito do respostas-container */
 .sort-icon-btn {
   position: absolute;
@@ -28,119 +13,57 @@
   margin: 0;
   cursor: pointer;
   z-index: 10;
-  color: #888;
+  color: var(--muted-2);
   font-size: 12px;
   transition: color 0.2s;
 }
 .sort-icon-btn:hover {
-  color: #007bff;
+  color: var(--primary);
   background-color: transparent;
 }
-.electron-controls .window-btn.eye.active {
-  background: rgba(0, 123, 255, 0.8);
-  color: white;
-}
+/* Electron controls styles moved to electroncontrols.css */
 /* ================= HOST VIEW ESPECÍFICO ================= */
 
 /* ================= CONTROLES ELECTRON ================= */
 
-.electron-controls {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 32px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
-  background: transparent;
-}
-
-.window-buttons.left,
-.window-buttons.right {
-  display: flex;
-  gap: 8px;
-  padding: 0 12px;
-  -webkit-app-region: no-drag;
-}
-
-.drag-area {
-  width: 40px;
-  height: 100%;
-  -webkit-app-region: drag;
-  cursor: move;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  color: rgb(100, 100, 100);
-  font-size: 12px;
-  transition: color 0.2s ease;
-}
-
-.window-buttons {
-  display: flex;
-  gap: 8px;
-  padding-right: 12px;
-  -webkit-app-region: no-drag;
-}
-
-/* Estilos específicos para os botões da janela - não afetam outros botões */
-.electron-controls .window-btn {
-  width: 20px;
-  height: 20px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: #666;
-  font-size: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 0; /* Override do padding padrão dos botões */
-}
-
-.electron-controls .window-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
-  color: #333;
-  transform: scale(1.1);
-}
-
-.electron-controls .window-btn.close:hover {
-  background: rgba(255, 59, 48, 0.8);
-  color: white;
-}
-
-.electron-controls .window-btn.pin.active {
-  background: rgba(40, 205, 65, 0.8);
-  color: white;
-}
-
-.electron-controls .window-btn.pin:hover {
-  background: rgba(40, 205, 65, 0.6);
-  color: white;
-}
-
-.electron-controls .window-btn.eye.active {
-  background: rgba(0, 123, 255, 0.8);
-  color: white;
-}
-
-.electron-controls .window-btn.eye:hover {
-  background: rgba(0, 123, 255, 0.6);
-  color: white;
-}
+/* Electron controls moved to electroncontrols.css */
 
 /* Ajuste do conteúdo para os controles */
 #host-view {
   position: relative;
+}
+
+/* Layout específico para modo Electron (a 100%) */
+body.electron-host #host-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 60px 20px 20px; /* Top padding for Electron controls */
+  box-sizing: border-box;
+}
+
+body.electron-host #host-view > p {
+  margin: 0 0 20px 0;
+  flex-shrink: 0;
+}
+
+body.electron-host .pergunta-container {
+  flex-shrink: 0;
+  margin: 0 0 20px 0 !important;
+}
+
+body.electron-host #reveal-btn,
+body.electron-host .next-btn {
+  flex-shrink: 0;
+  margin: 0 auto 20px;
+}
+
+/* Make respostas section flexible to fill remaining space */
+body.electron-host #host-view > :last-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* Estilos específicos para botões do host - não afetam outros botões */
@@ -154,8 +77,8 @@
   height: 40px;
   font-size: 18px;
   font-weight: bold;
-  background: #eee;
-  color: #333;
+  background: var(--bg-surface);
+  color: var(--text);
   border: none;
   border-radius: 8px;
   overflow: hidden;
@@ -172,13 +95,13 @@
 
 #reveal-btn.next-btn,
 .next-btn {
-  background: #007bff;
+  background: var(--primary);
   color: #fff;
 }
 
 #reveal-btn.next-btn:hover,
 .next-btn:hover {
-  background: #0056b3;
+  background: var(--primary-dark);
   color: #fff;
 }
 
@@ -190,8 +113,8 @@
   height: 40px;
   font-size: 18px;
   font-weight: bold;
-  background: #eee;
-  color: #333;
+  background: var(--bg-surface);
+  color: var(--text);
   border: none;
   border-radius: 8px;
   overflow: hidden;
@@ -206,7 +129,7 @@
   top: 0;
   height: 100%;
   width: 0%;
-  background-color: #28a745;
+  background-color: var(--success);
   transition: width 0.5s;
   z-index: 1;
 }
@@ -221,77 +144,69 @@
 }
 
 /* ================= VISUALIZAÇÃO DE RESPOSTAS ================= */
-#respostas-container {
-  margin-top: 20px;
-  text-align: left;
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 4px;
-  min-height: 50px;
-  border: 1px solid #eee;
+/* resposta-specific styles moved to respostas.css to avoid inheritance issues */
+
+/* ================= BOTÃO COM SOBREPOSIÇÃO PARA REVELAÇÃO SEQUENCIAL ================= */
+.reveal-button-wrapper {
   position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
 }
 
-/* Gráfico de barras */
-.resposta-grafico-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.resposta-grafico-item.destacada {
-  transform: scale(1.03);
-  box-shadow: 0 0 15px rgba(0, 123, 255);
-  background-color: rgba(0, 123, 255, 0.04);
-  border-radius: 6px;
-}
-
-.barra-container {
-  position: relative;
-  height: 30px;
-  background-color: #e9ecef;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.barra-preenchimento {
+/* Botões de sobreposição transparentes */
+.overlay-button {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  background-color: #007bff;
-  border-radius: 4px;
-  transition: width 0.5s ease-in-out;
-}
-
-.resposta-texto {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: calc(100% - 20px);
-  color: #333;
-}
-
-.resposta-contagem {
-  font-weight: bold;
-  font-size: 16px;
-  text-align: right;
-  padding-right: 5px;
-}
-
-/* Gráfico de barras */
-.resposta-grafico-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
+  height: 40px; /* Altura fixa igual ao botão original */
+  width: 50px;
+  display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 3;
+  padding: 0;
+  margin: 0;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.overlay-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.overlay-left {
+  left: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.overlay-right {
+  right: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Linhas de separação */
+.separator {
+  position: absolute;
+  top: 8px; /* 20% de 40px = 8px */
+  height: 24px; /* 60% de 40px = 24px */
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 2;
+}
+
+.separator-left {
+  left: 50px;
+}
+
+.separator-right {
+  right: 50px;
 }

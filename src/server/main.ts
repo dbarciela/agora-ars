@@ -13,9 +13,10 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     resizable: true,
     frame: false, // Remove a moldura da janela
-    transparent: true, // Torna o fundo transparente
-    backgroundColor: 'rgba(0,0,0,0)', // Fundo completamente transparente
+    transparent: true, // Volta para transparente para semitransparência
+    backgroundColor: 'rgba(255,255,255,0)', // Fundo mais transparente (85% opaco)
     width: 430,
+    roundedCorners: true,
     height: 500, // Altura inicial maior
     minWidth: 350,
     minHeight: 500,
@@ -44,7 +45,7 @@ function createWindow(): void {
   // Ativar zoom após carregar
   mainWindow.webContents.once('did-finish-load', () => {
     if (!mainWindow) return;
-  // Permitir zoom explicitamente
+    // Permitir zoom explicitamente
     mainWindow.webContents.setZoomLevel(0); // Reset para zoom padrão
   });
 

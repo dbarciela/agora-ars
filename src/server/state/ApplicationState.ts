@@ -12,13 +12,23 @@ import { logger } from '../utils/logger';
 class ApplicationState {
   // Texto opcional com o contexto ou pergunta atual mostrado a todos os participantes
   public perguntaAtual: string = '';
+  // Estado do modo live
+  public isLiveMode: boolean = false;
 
   definirPergunta(novaPergunta: string): void {
     this.perguntaAtual = novaPergunta;
   }
 
+  alterarModoLive(novoModoLive: boolean): void {
+    this.isLiveMode = novoModoLive;
+  }
+
   fundirRespostas(respostaArrastada: string, respostaAlvo: string): void {
-    logger.debug('Antes do merge', { respostaArrastada, respostaAlvo, participantes: Object.keys(this.participantes) });
+    logger.debug('Antes do merge', {
+      respostaArrastada,
+      respostaAlvo,
+      participantes: Object.keys(this.participantes),
+    });
     Object.entries(this.participantes).forEach(([id, p]) => {
       logger.debug(`participante`, { id, respostas: p.respostas });
     });
@@ -31,7 +41,9 @@ class ApplicationState {
       if (JSON.stringify(antes) !== JSON.stringify(p.respostas)) alterou = true;
     });
     logger.info(`Respostas fundidas`, { respostaArrastada, respostaAlvo });
-    logger.debug('Depois do merge', { participantes: Object.keys(this.participantes) });
+    logger.debug('Depois do merge', {
+      participantes: Object.keys(this.participantes),
+    });
     Object.entries(this.participantes).forEach(([id, p]) => {
       logger.debug(`participante`, { id, respostas: p.respostas });
     });

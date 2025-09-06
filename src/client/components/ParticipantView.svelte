@@ -1,6 +1,12 @@
 <script lang="ts">
   import { toastStore } from '../stores/toastStore';
+  import { flip } from 'svelte/animate';
+  import './participant.css';
+  import { minhasRespostas, isReady, respostasReveladas, perguntaAtual, isLiveModeFromHost } from '../stores';
+  import { ClientApi } from '../services/socket-api';
+  import RespostaItem from './RespostaItem.svelte';
 
+  let respostaInput = '';
   let hasHadResponses = false;
 
   // Deteta quando o participante já submeteu respostas
@@ -17,28 +23,15 @@
     );
     hasHadResponses = false; // Reset para a próxima ronda
   }
-  import { flip } from 'svelte/animate';
-  import { slide } from 'svelte/transition';
-  import './participant.css';
-  import { minhasRespostas, isReady, respostas, respostasReveladas, perguntaAtual } from '../stores';
-  import { SocketService } from '../services/socket';
-  import { EVENTS } from '../../types/events';
 
-  let respostaInput = '';
+  // O input fica desabilitado quando está pronto OU quando respostas foram reveladas (exceto em modo live)
+  $: inputDisabled = $isReady || (!$isLiveModeFromHost && $respostasReveladas);
+  // O botão fica desabilitado quando as respostas são reveladas, EXCETO se estiver em modo live
+  $: buttonDisabled = !$isLiveModeFromHost && $respostasReveladas;
 
-
-  // O input só fica desabilitado quando está pronto
-  $: inputDisabled = $isReady;
-  // O botão fica desabilitado apenas quando as respostas são reveladas
-  $: buttonDisabled = $respostasReveladas;
-
-  function handleEditarResposta(index: number) {
-    if ($isReady) return;
-    respostaInput = $minhasRespostas[index];
-    handleRemoverResposta(index); // Remove a resposta antiga para ser submetida novamente
+  function handleEditStart(respostaText: string) {
+    respostaInput = respostaText;
   }
-
-
   function mostrarFeedback(mensagem: string, sucesso = true) {
     if (sucesso) {
       toastStore.success(mensagem);
@@ -59,15 +52,12 @@
       return;
     }
 
-    SocketService.emit(EVENTS.SUBMIT_RESPONSE, resposta);
+    ClientApi.submitResponse(resposta);
     minhasRespostas.update(respostas => [...respostas, resposta]);
     respostaInput = '';
   }
 
-  function handleRemoverResposta(index: number) {
-    SocketService.emit(EVENTS.REMOVE_RESPONSE, index);
-    minhasRespostas.update(respostas => respostas.filter((_, i) => i !== index));
-  }
+
 
   function handleProntoClick() {
     if (!$isReady && respostaInput.trim().length > 0) {
@@ -80,7 +70,7 @@
     }
 
     const novoEstadoPronto = !$isReady;
-    SocketService.emit(novoEstadoPronto ? EVENTS.PARTICIPANT_READY : EVENTS.CANCEL_READY);
+    ClientApi.setReady(novoEstadoPronto);
     isReady.set(novoEstadoPronto);
   }
 </script>
@@ -111,13 +101,12 @@
       <p>As suas respostas aparecerão aqui.</p>
     {:else}
       {#each $minhasRespostas as resposta, idx (resposta)}
-        <div class="resposta-item" on:click={() => handleEditarResposta(idx)} title="Clique para editar" animate:flip={{ duration: 300 }} transition:slide>
-          <span>{resposta}</span>
-          {#if !$isReady}
-            <button class="delete-icon" title="Apagar resposta" aria-label="Apagar resposta" on:click|stopPropagation={() => handleRemoverResposta(idx)}>
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          {/if}
+        <div animate:flip={{ duration: 300 }}>
+          <RespostaItem 
+            {resposta}
+            index={idx}
+            onEditStart={handleEditStart}
+          />
         </div>
       {/each}
     {/if}

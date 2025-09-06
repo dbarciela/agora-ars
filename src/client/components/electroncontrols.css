@@ -1,0 +1,107 @@
+/* Styles for the ElectronControls component when used inside #host-view
+	 Keeping styles external improves reusability: the HostView can choose
+	 to import these styles when it mounts in host mode. */
+
+#main-title {
+  font-family: 'Noto Serif Display', serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+  color: var(--text);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-transform: lowercase;
+}
+
+.electron-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  background: transparent;
+}
+
+.window-buttons.left,
+.window-buttons.right {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px;
+  -webkit-app-region: no-drag;
+}
+
+.drag-area {
+  width: 40px;
+  height: 100%;
+  -webkit-app-region: drag;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: var(--muted);
+  font-size: 12px;
+  transition: color 0.2s ease;
+}
+
+.window-buttons {
+  display: flex;
+  gap: 8px;
+  padding-right: 12px;
+  -webkit-app-region: no-drag;
+}
+
+.electron-controls .window-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  /* subtle translucent surface using theme surface color */
+  background: color-mix(in srgb, var(--surface) 12%, transparent);
+  color: var(--muted);
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+  border: 1px solid var(--border-strong);
+  padding: 0;
+}
+
+.electron-controls .window-btn:hover {
+  background: color-mix(in srgb, var(--surface) 28%, transparent);
+  color: var(--text);
+  transform: scale(1.1);
+}
+
+.electron-controls .window-btn.close:hover {
+  background: color-mix(in srgb, var(--danger) 80%, black 10%);
+  color: var(--surface);
+}
+
+.electron-controls .window-btn.pin.active {
+  background: color-mix(in srgb, var(--success) 80%, black 10%);
+  color: var(--surface);
+}
+
+.electron-controls .window-btn.pin:hover {
+  background: color-mix(in srgb, var(--success) 60%, black 8%);
+  color: var(--surface);
+}
+
+.electron-controls .window-btn.eye.active {
+  background: color-mix(in srgb, var(--primary) 80%, black 10%);
+  color: var(--surface);
+}
+
+.electron-controls .window-btn.eye:hover {
+  background: color-mix(in srgb, var(--primary) 60%, black 8%);
+  color: var(--surface);
+}

@@ -54,10 +54,16 @@ export default defineConfig({
             logger.error('proxy error', { err: String(err) });
           });
           proxy.on('proxyReq', (proxyReq, req, _res) => {
-            logger.debug('Sending Request', { method: req.method, url: req.url });
+            logger.debug('Sending Request', {
+              method: req.method,
+              url: req.url,
+            });
           });
           proxy.on('proxyRes', (proxyRes, req, _res) => {
-            logger.debug('Received Response', { statusCode: proxyRes.statusCode, url: req.url });
+            logger.debug('Received Response', {
+              statusCode: proxyRes.statusCode,
+              url: req.url,
+            });
           });
         },
       },

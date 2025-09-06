@@ -8,6 +8,7 @@ export const EVENTS = {
   REVEAL_RESPONSES: 'revelarRespostas',
   CLEAR_RESPONSES: 'limparRespostas',
   MERGE_RESPONSES: 'fundirRespostas',
+  TOGGLE_LIVE_MODE: 'alternarModoLive',
 
   // Eventos do Servidor para o Cliente
   // Evento para enviar/atualizar o contexto/pergunta atual
@@ -19,4 +20,5 @@ export const EVENTS = {
   UPDATE_PARTICIPANT_STATE: 'estadoParticipantes',
   UPDATE_RESPONSES: 'respostas',
   RESPONSES_REVEALED: 'respostasReveladas',
+  LIVE_MODE_CHANGED: 'modoLiveAlterado',
 } as const;
